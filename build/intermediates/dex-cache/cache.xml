@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/frma/Workspace/SBS/sbs/build/intermediates/pre-dexed/debug/native-libs-541106314f0eb8770e0f59c6b6ab1ce6d57af547.jar"
+        jar="/home/frma/Workspace/SBS/sbs/build/native-libs/native-libs.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="ccf73d9ff1e349755cdb7d7302ddf570a241b419"/>
+
+</pre-dex-items>
