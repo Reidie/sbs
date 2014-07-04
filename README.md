@@ -13,7 +13,7 @@ it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendiv
 - If installation fails, try again.
 - If the phone hangs, reboot it.
 
-You can see it in actoin here: https://www.youtube.com/watch?v=74F7AbyVFl0
+You can see it in action here: https://www.youtube.com/watch?v=74F7AbyVFl0
 
 I have a lot of projects, a day-job and doesn't have much time for this project, in addition estetics and user interfaces aren't my 
 strong side. So if someone wants to help rewrite this into something useful I'd appreciate the help.
