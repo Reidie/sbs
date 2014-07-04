@@ -12,9 +12,17 @@ it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendiv
   to work around this by triggering the installation with the power button, which also deactivates the graphics.
 - If installation fails, try again.
 - If the phone hangs, reboot it.
+- I use it with a bluetooth mouse and have watched hours and hours of movies with it (mostly when flying).
 
 You can see it in action here: https://www.youtube.com/watch?v=74F7AbyVFl0
 
-I have a lot of projects, a day-job and doesn't have much time for this project, in addition estetics and user interfaces aren't my 
-strong side. So if someone wants to help rewrite this into something useful I'd appreciate the help.
+I have a lot of projects, a day-job and not much time for this project, in addition estetics and user interfaces aren't my 
+strong side. So if someone wants to help rewrite this into something neater I'd appreciate the help.
+
+Some ideas:
+
+I1) Enable/disable in a way that works in both SBS and non-sbs mode. Since using the touch-screen is hard in SBS mode.
+I2) Lens distortion correction (any opengl-wizards out there that would like to help ?)
+I3) Incorporate the change in some open source ROMS (the patch is quite small and isolated but does need some work)
+I4) Add permanent installation option.
 
