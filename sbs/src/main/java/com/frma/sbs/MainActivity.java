@@ -163,7 +163,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Install SBS")
-                .setMessage("Now press the power button"w)
+                .setMessage("Now press the power button")
                 .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -196,7 +196,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         try {
             String srcso = this.getApplicationInfo().nativeLibraryDir + "/libsurfaceflinger.so";
             Logger.getLogger("SBS").info("srcso at " + srcso);
-            Process process = Runtime.getRuntime().exec(new String[] {"su", "-mm", "-c",-
+            Process process = Runtime.getRuntime().exec(new String[] {"su", "-mm", "-c",
                         "sleep 2 ; stop surfaceflinger && mount -o bind " + srcso + " /system/lib/libsurfaceflinger.so ; start surfaceflinger"});
             rv = process.waitFor();
             if(rv != 0)
