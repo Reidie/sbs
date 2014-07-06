@@ -13,6 +13,8 @@ it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendiv
 - If installation fails, try again.
 - If the phone hangs, reboot it.
 - I use it with a bluetooth mouse and have watched hours and hours of movies with it (mostly when flying).
+- The "fill" functionality is not implemented.
+- Uninstall does not work, reboot your phone instead.
 
 You can see it in action here: https://www.youtube.com/watch?v=74F7AbyVFl0
 
