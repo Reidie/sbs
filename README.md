@@ -8,6 +8,7 @@ it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendiv
   always help.
 - This has only been tested on AOKP_jflte_kitkat_nightly_2014-05-24 (AOKP based on 4.4.2 on Samsung S4 - I9505), but probably works with
   all CM11 based KitKat roms. (And possibly some KitKat stock ROMs)
+- You need a rooted ROM.
 - Installation is not stable due to the fact that some drivers doesn't sometime crashes when we restart the framework, I've attempted
   to work around this by triggering the installation with the power button, which also deactivates the graphics.
 - If installation fails, try again.
@@ -27,4 +28,6 @@ I1) Enable/disable in a way that works in both SBS and non-sbs mode. Since using
 I2) Lens distortion correction (any opengl-wizards out there that would like to help ?)
 I3) Incorporate the change in some open source ROMS (the patch is quite small and isolated but does need some work)
 I4) Add permanent installation option.
+I5) Make individual zoom settings for landscape and portrait mode.
+I6) Make zoom settings persistent
 
