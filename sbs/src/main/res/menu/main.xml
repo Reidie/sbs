@@ -2,8 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.frma.sbs.MainActivity" >
     
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item android:id="@+id/action_restart_framework"
+        android:title="@string/restart_framework"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/action_override_install_check"
+        android:title="@string/skip_install_test"
         android:orderInCategory="100"
         android:showAsAction="never" />
 </menu>

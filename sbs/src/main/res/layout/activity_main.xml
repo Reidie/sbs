@@ -26,41 +26,33 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
 
+
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:max="255"
+            android:indeterminate="false"
+            android:layout_above="@+id/textView"
+            android:layout_alignParentStart="true" />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enable"
             android:id="@+id/enable"
-            android:layout_below="@+id/install"
-            android:layout_alignParentStart="true"
-            android:checked="false" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fill in landscape"
-            android:id="@+id/filll"
             android:checked="false"
-            android:layout_below="@+id/enable"
-            android:layout_alignParentLeft="true" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fill in portrait"
-            android:id="@+id/fillp"
-            android:layout_below="@+id/filll"
-            android:layout_alignParentStart="true"
-            android:checked="false" />
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Zoom"
+            android:text="Zoom  "
             android:id="@+id/textView"
-            android:layout_below="@+id/fillp"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,19 +60,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="100%"
             android:id="@+id/zommFactor"
-            android:layout_below="@+id/fillp"
-            android:layout_toRightOf="@+id/textView"
-            android:layout_marginLeft="24dp" />
-
-        <SeekBar
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seekBar"
-            android:layout_below="@+id/zommFactor"
-            android:layout_alignParentLeft="true"
-            android:max="255"
-            android:indeterminate="false" />
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/textView" />
 
     </RelativeLayout>
+
 </FrameLayout>
 
