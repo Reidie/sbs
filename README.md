@@ -15,12 +15,25 @@ it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendiv
 - If the phone hangs, reboot it.
 - I use it with a bluetooth mouse and have watched hours and hours of movies with it (mostly when flying).
 - The "fill" functionality is not implemented.
-- Uninstall does not work, reboot your phone instead.
 
 You can see it in action here: https://www.youtube.com/watch?v=74F7AbyVFl0
 
 I have a lot of projects, a day-job and not much time for this project, in addition estetics and user interfaces aren't my 
 strong side. So if someone wants to help rewrite this into something neater I'd appreciate the help.
+
+Please report success and fail with device name and os version in the community https://plus.google.com/u/0/communities/117807409036006925326?cfem=1
+
+Status
+
+Device    | ROM                    | Thanks to         | Status                           
+----------|------------------------|-------------------|-----------------------
+LG G2     | optimusRX stock G3 ROM | Anton Osika       | Working                        
+Galaxy S4 | CM11-M8                | Fredrik Markström | Working, but flaky installation
+Nexus 5   | Stock                  | Miebi Sikoki      | Working
+HTC One M8| GPE                    | Steven Weeks      | Working
+Xperia Z2 | Stockm, rooted 4.4.2   | George Do         | Not working
+
+
 
 Some ideas:
 
@@ -31,3 +44,4 @@ I4) Add permanent installation option.
 I5) Make individual zoom settings for landscape and portrait mode.
 I6) Make zoom settings persistent
 
+S
