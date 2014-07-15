@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Logger;
 
 public class MainActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
@@ -58,6 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         enable.setChecked(mEnabled);
         updateStatus();
 
+        copyAssets("armeabi");
 
 /*
         new AlertDialog.Builder(this)
@@ -119,11 +129,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
     }
     private void commit()
     {
-        int val = 0;
-        if(mEnabled) {
-            val = (mZoom << 4) + 1;
-        }
-        setSBSValue(val);
+        runAndCheckSBSCmd(String.format("set %d %d", mEnabled?1:0, mZoom));
     }
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -223,36 +229,37 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         }
         return rv;
     }
+    private int runSBSCmd(String cmd) {
+        String path = getFilesDir().getAbsolutePath();
+        return runAsRoot(path + "/sbs.sh " + cmd);
+    }
+    private void runAndCheckSBSCmd(String cmd) {
+        int rv = runSBSCmd(cmd);
+        if(rv != 0) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("SBS Failed")
+                    .setMessage("SBS command failed with error " + rv + ".")
+                    .show();
+        }
+    }
     private void doInstall() {
-        String srcso = this.getApplicationInfo().nativeLibraryDir + "/libsurfaceflinger.so";
-        logi("srcso at " + srcso);
-        runAsRoot("mount -o bind " + srcso + " /system/lib/libsurfaceflinger.so ; restart &");
+        runAndCheckSBSCmd("install");
     }
-    private void doUninstall() {
-        runAsRoot("reboot &");
+    private void doUninstall()
+    {
+        runAndCheckSBSCmd("uninstall");
     }
-    private void doRestartFramework() {
-        runAsRoot("restart & ");
+    private void doRestartFramework()
+    {
+        runAndCheckSBSCmd("restart");
     }
     private boolean isInstalled() {
         int rv = -1;
         if(mOverrideInstalledTest)
             return true;
-        rv = runAsRoot("grep /system/lib/libsurfaceflinger.so /proc/mounts");
+        rv = runSBSCmd("isinstalled");
         return rv == 0;
-    }
-    private void setSBSValue(int val)  {
-        runAsRoot("service call SurfaceFlinger 4711 i32 " + val);
-    }
-    private void setSBSValues(int flags, int portraitZoom, int landscapeZoom)  {
-        int rv = -1;
-
-        //Toast.makeText(this, "Send value " + val, Toast.LENGTH_LONG).show();
-        try {
-
-        } catch (Exception e) {
-            Toast.makeText(this, "Failed to run as root", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -288,7 +295,50 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
         }
     	super.onPause();
     }
+    private void copyAssets(String path) {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list(path);
+        } catch (IOException e) {
+            loge("Failed to get asset file list.");
+        }
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+
+                in = assetManager.open(path + "/" + filename);
+                File outFile = new File(getFilesDir(), filename);
+                out = new FileOutputStream(outFile);
+                logd("copy " + outFile);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+                Runtime.getRuntime().exec( "chmod 755 " + outFile.getAbsolutePath());
+            } catch(IOException e) {
+                loge("Failed to copy asset file: " + filename);
+            }
+        }
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+    private void logd(String msg) {
+        Log.d("SBS", msg);
+    }
     private void logi(String msg) {
-        Logger.getLogger("SBS").info(msg);
+        Log.i("SBS", msg);
+    }
+    private void loge(String msg)
+    {
+        Log.e("SBS", msg);
     }
 }
