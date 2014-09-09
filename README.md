@@ -58,7 +58,7 @@ I6) Make zoom settings persistent
 
 To manually undo everything SBS has done to your device
 
-1) Boot into recovery
+1) Boot into recovery and connect to your phone with adb
 2) Mount /system read/write
 
    mount -o rw /system
