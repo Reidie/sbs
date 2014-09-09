@@ -1,20 +1,29 @@
 sbs
 ===
 
-This is the source code for the installation and control app for the first version of Android Native SBS support. Native SBS makes 
-it possible to use all apps (like Plex, Play Movies, Netflix, etc.) with opendive, google cardboard or similar for viewing on a large virtual screen.
+This is the source code for the installation and control app for the first version of
+Native SBS support for Android. Native SBS makes it possible to use all apps (like Plex,
+Play Movies, Netflix, etc.) with opendive, google cardboard or similar for viewing on a large
+virtual screen.
 
-- Installation might cause your phone to crash or freeze, but it doesn't do ANY permanent changes so a reboot should
-  always help.
-- This has only been tested on AOKP_jflte_kitkat_nightly_2014-05-24 (AOKP based on 4.4.2 on Samsung S4 - I9505), but probably works with
-  all CM11 based KitKat roms. (And possibly some KitKat stock ROMs)
-- You need a rooted ROM.
-- Installation is not stable due to the fact that some drivers doesn't sometime crashes when we restart the framework, I've attempted
-  to work around this by triggering the installation with the power button, which also deactivates the graphics.
-- If installation fails, try again.
+Before you go ahead and install this app make sure that you have root and a working recovery in
+case something goes horribly wrong.
+
+The code that is the core of this functionality is not part of any open API so the compatibility
+of this app needs to be tested on a per android version and device type.
+
+When you have installed and enabled SBS (in the app) your device might fail to boot. If you
+selected the option of only enable "on next boot" you can just power off and power on the phone
+again and it *should* boot fine. If you select the "Dangerous" option you might not be so lucky.
+
+If your device fails to boot, read the "To manually undo everything SBS has done to your device"
+chapter below.
+
+- This has only been tested on AOKP_jflte_kitkat_nightly_2014-05-24 (AOKP based on 4.4.2 on Samsung
+  S4 - I9505), but probably works with all CM11 based KitKat roms. (And possibly some KitKat stock
+  ROMs)
 - If the phone hangs, reboot it.
 - I use it with a bluetooth mouse and have watched hours and hours of movies with it (mostly when flying).
-- The "fill" functionality is not implemented.
 
 You can see it in action here: https://www.youtube.com/watch?v=74F7AbyVFl0
 
@@ -28,11 +37,11 @@ Status
 Device    | ROM                    | Thanks to         | Status                           
 ----------|------------------------|-------------------|-----------------------
 LG G2     | optimusRX stock G3 ROM | Anton Osika       | Working                        
-Galaxy S4 | CM11-M8                | Fredrik Markström | Working, but flaky installation
+Galaxy S4 | CM11-M8                | Fredrik Markström | Working
+Galaxy S4 | CM11-M9                | Fredrik Markström | Working
 Nexus 5   | Stock                  | Miebi Sikoki      | Working
 HTC One M8| GPE                    | Steven Weeks      | Working
 Xperia Z2 | Stockm, rooted 4.4.2   | George Do         | Not working
-
 
 
 Some ideas:
@@ -44,4 +53,26 @@ I4) Add permanent installation option.
 I5) Make individual zoom settings for landscape and portrait mode.
 I6) Make zoom settings persistent
 
-S
+
+
+To manually undo everything SBS has done to your device
+
+1) Boot into recovery
+2) Mount /system read/write
+
+   mount -o rw /system
+
+3) Restore /system binaries
+
+   mv /system/bin/surfaceflinger.real /system/bin/surfaceflinger
+
+* At this step your phone should boot fine, but if we really want to clean up we continue with:
+
+4) Mount data
+
+   mount /data
+
+5) Remove sbs related files
+
+   rm -rf /data/system/sbs
+
