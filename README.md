@@ -41,6 +41,7 @@ Galaxy S4 | CM11-M8                | Fredrik Markström | Working
 Galaxy S4 | CM11-M9                | Fredrik Markström | Working
 Nexus 5   | Stock                  | Miebi Sikoki      | Working
 HTC One M8| GPE                    | Steven Weeks      | Working
+Oppo Find 7 | CM11 nightlies       | Travis Brown      | Working
 Xperia Z2 | Stockm, rooted 4.4.2   | George Do         | Not working
 
 
