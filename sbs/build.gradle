@@ -23,8 +23,6 @@ task nativeLibsToJar(type: Zip, description: 'create a jar archive of the native
     destinationDir file("$buildDir/native-libs")
     baseName 'native-libs'
     extension 'jar'
-    from fileTree(dir: 'src/main/assets', include: '**/*')
-    into 'lib/'
     from fileTree(dir: 'src/main/libs', include: '**/*.so')
     into 'lib/'
 }
@@ -37,3 +35,5 @@ dependencies {
     compile fileTree(dir: "$buildDir/native-libs", include: 'native-libs.jar')
     //compile 'com.android.support:support-v4:19.+'
 }
+
+apply from: '../../workspace/signapk.gradle'
