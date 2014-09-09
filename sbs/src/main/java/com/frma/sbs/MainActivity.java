@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 class SBSException extends Exception {
     public int mErrcode;
@@ -475,8 +479,29 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                         .setTitle("SBS Failed")
                         .setMessage(mException.getMessage())
                         .show();
+                //sendReport();
             }
         }
     };
+    private void sendReport() {
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                new String[] { "fredrik.markstrom@gmail.com" });
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                "A log from SBS");
+        URI uri = null;
+        try {
+            uri = new URI("file:///"+getFilesDir()+"/sbs-log.txt");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        if (uri != null) {
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                "This is a log from SBS");
+        this.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
 
+    }
 }
