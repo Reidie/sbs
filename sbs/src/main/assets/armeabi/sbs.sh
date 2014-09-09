@@ -82,17 +82,20 @@ case $1 in
     enable)
         mkdir -p /data/system/sbs
         chown system.system /data/system/sbs
-        su -c "touch /data/system/sbs/enabled" system
+        touch /data/system/sbs/enabled
+        chown system.system /data/system/sbs/enabled
         ;;
     enablepermanent)
         mkdir -p /data/system/sbs
         chown system.system /data/system/sbs
-        su -c "touch /data/system/sbs/enabled" system
-        su -c "touch /data/system/sbs/permanent" system
+        touch /data/system/sbs/enabled
+        chown system.system /data/system/sbs/enabled
+        touch /data/system/sbs/permanent
+        chown system.system /data/system/sbs/permanent
         ;;
     disable)
-        su -c "rm /data/system/sbs/enabled" system
-        su -c "rm -f /data/system/sbs/permanent" system
+        rm /data/system/sbs/enabled
+        rm -f /data/system/sbs/permanent
         ;;
     ispermanent)
         if [ -e /data/system/sbs/enabled -a -e /data/system/sbs/permanent ] ; then
@@ -132,6 +135,10 @@ case $1 in
         R=$(service call SurfaceFlinger 4711 i32 $FLAGS i32 $ZOOM i32 $IMGDIST)
 	    log "Result: $R"
 	    echo "$R" | grep "^Result: Parcel(NULL)" && ( echo "Ok" ; exit 0 ) || ( log "Not installed" ; exit 106)
+        ;;
+    report)
+        getprop
+        md5sum /system/lib/libsurfaceflinger.so
         ;;
     *)
 	    log "SBS: Unknown subcommand: $1"
