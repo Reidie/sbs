@@ -2,17 +2,53 @@
 set -x
 set -e
 
+BINDIR=${0%sbs.sh}
+LOG=$BINDIR/sbs-log.txt
+
 log () {
     /system/bin/log -t SBS $*
     echo $*
 }
 
+# Busybox comands
+bbcp ()     { $BINDIR/busybox cp $* ; }
+bbdate ()   { $BINDIR/busybox date $* ; }
+bbln ()     { $BINDIR/busybox ln $* ; }
+bbmd5sum () { $BINDIR/busybox md5sum $1 ; }
+bbmv ()     { $BINDIR/busybox mv $* ; }
+bbpidof ()  { $BINDIR/busybox pidof $* ; }
+bbrm ()     { $BINDIR/busybox rm $* ; }
+bbchmod()   { $BINDIR/busybox chmod $* ; }
 
-BINDIR=${0%sbs.sh}
-exec 1>> $BINDIR/sbs-log.txt 2>&1
+# Built in commands
+bimount ()  { mount $* ; }
+bichown ()  { chown $* ; }
+
+
+# Wrappers for busybox
+bbtouch () {
+    $BINDIR/busybox touch $1
+    bichown system.system $1
+}
+bbmkdir () {
+    $BINDIR/busybox mkdir -p $1
+    bichown system.system $1
+}
+
+# Add properties and md5sum of libsurfaceflinger if we haven't done that before
+if [ ! -e /data/system/sbs/log-not-empty ] ; then
+    bbmkdir /data/system/sbs
+    bbtouch /data/system/sbs/log-not-empty
+    getprop  > $LOG  || true
+    bbmd5sum /system/lib/libsurfaceflinger.so >> $LOG
+fi
+# Make sure the log is readable by the email client (and everyone else)
+bbchmod 0666 $LOG
+# Redirect all output to the log file
+exec 1>> $LOG 2>&1
 
 log "============="
-date
+bbdate
 log "ARGS: $*"
 
 BB=$BINDIR/busybox
@@ -37,37 +73,36 @@ fi
 
 log "Selected library: $LIBSF"
 
-
 test -e $BB || ( log "Failed to copy busybox to $BB" 2>&1 ; exit 104 )
 
 case $1 in
     install)
         log "Installing"
-        mkdir -p /data/system/sbs
-        chown system.system /data/system/sbs
-        ln -s /data/data/com.frma.sbs/lib/$LIBSF /data/system/sbs/libsurfaceflinger.so
+        bbmkdir /data/system/sbs
+        bbrm -f /data/system/sbs/libsurfaceflinger.so
+        bbln -s /data/data/com.frma.sbs/lib/$LIBSF /data/system/sbs/libsurfaceflinger.so
 
         log "Modifying /system"
         if [ -e /system/bin/surfaceflinger.real ] ; then
             log "/system/bin/surfaceflinger.real already exists, please uninstall first"
             exit 1
         fi
-        mount -o remount,rw /system
-        cp /system/bin/surfaceflinger /data/data/com.frma.sbs/files/surfaceflinger.org
-        mv /system/bin/surfaceflinger /system/bin/surfaceflinger.real
-        cp /data/data/com.frma.sbs/files/surfaceflinger /system/bin/surfaceflinger
-        chmod 755 /system/bin/surfaceflinger
-        mount -o remount,ro /system
+        bimount -o remount,rw /system
+        bbcp /system/bin/surfaceflinger /data/data/com.frma.sbs/files/surfaceflinger.org
+        bbmv /system/bin/surfaceflinger /system/bin/surfaceflinger.real
+        bbcp /data/data/com.frma.sbs/files/surfaceflinger /system/bin/surfaceflinger
+        bbchmod 755 /system/bin/surfaceflinger
+        bimount -o remount,ro /system
         log "Done modifying system"
-        ;;
+         ;;
     uninstall)
         rm -rf /data/system/sbs
         if [ ! -e /system/bin/surfaceflinger.real ] ; then
             log "/system/bin/surfaceflinger.real not found, can't uninstall"
         else
-            mount -o remount,rw /system
+            bimount -o remount,rw /system
             mv /system/bin/surfaceflinger.real /system/bin/surfaceflinger
-            mount -o remount,ro /system
+            bimount -o remount,ro /system
         fi
         ;;
     isinstalled)
@@ -80,22 +115,17 @@ case $1 in
         fi
 	    ;;
     enable)
-        mkdir -p /data/system/sbs
-        chown system.system /data/system/sbs
-        touch /data/system/sbs/enabled
-        chown system.system /data/system/sbs/enabled
+        bbmkdir /data/system/sbs
+        bbtouch /data/system/sbs/enabled
         ;;
     enablepermanent)
-        mkdir -p /data/system/sbs
-        chown system.system /data/system/sbs
-        touch /data/system/sbs/enabled
-        chown system.system /data/system/sbs/enabled
-        touch /data/system/sbs/permanent
-        chown system.system /data/system/sbs/permanent
+        bbmkdir /data/system/sbs
+        bbtouch /data/system/sbs/enabled
+        bbtouch /data/system/sbs/permanent
         ;;
     disable)
-        rm /data/system/sbs/enabled
-        rm -f /data/system/sbs/permanent
+        bbrm /data/system/sbs/enabled
+        bbrm -f /data/system/sbs/permanent
         ;;
     ispermanent)
         if [ -e /data/system/sbs/enabled -a -e /data/system/sbs/permanent ] ; then
@@ -116,7 +146,7 @@ case $1 in
         fi
         ;;
     isloaded)
-        if grep com.frma.sbs /proc/$(pidof surfaceflinger.real)/maps > /dev/null 2>&1 ; then
+        if grep com.frma.sbs /proc/$(bbpidof surfaceflinger.real)/maps > /dev/null 2>&1 ; then
             log "Result: Yes"
             exit 0
         else
@@ -135,10 +165,6 @@ case $1 in
         R=$(service call SurfaceFlinger 4711 i32 $FLAGS i32 $ZOOM i32 $IMGDIST)
 	    log "Result: $R"
 	    echo "$R" | grep "^Result: Parcel(NULL)" && ( echo "Ok" ; exit 0 ) || ( log "Not installed" ; exit 106)
-        ;;
-    report)
-        getprop
-        md5sum /system/lib/libsurfaceflinger.so
         ;;
     *)
 	    log "SBS: Unknown subcommand: $1"
