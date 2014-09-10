@@ -36,9 +36,8 @@ bbmkdir () {
 }
 
 # Add properties and md5sum of libsurfaceflinger if we haven't done that before
-if [ ! -e /data/system/sbs/log-not-empty ] ; then
-    bbmkdir /data/system/sbs
-    bbtouch /data/system/sbs/log-not-empty
+if [ ! -e $BINDIR/log-has-deviceinfo ] ; then
+    bbtouch $BINDIR/log-has-deviceinfo
     getprop  > $LOG  || true
     bbmd5sum /system/lib/libsurfaceflinger.so >> $LOG
 fi
@@ -120,15 +119,14 @@ case $1 in
         ;;
     enablepermanent)
         bbmkdir /data/system/sbs
-        bbtouch /data/system/sbs/enabled
         bbtouch /data/system/sbs/permanent
         ;;
     disable)
-        bbrm /data/system/sbs/enabled
+        bbrm -f /data/system/sbs/enabled
         bbrm -f /data/system/sbs/permanent
         ;;
     ispermanent)
-        if [ -e /data/system/sbs/enabled -a -e /data/system/sbs/permanent ] ; then
+        if [ -e /data/system/sbs/permanent ] ; then
             log "Result: Yes"
             exit 0
         else

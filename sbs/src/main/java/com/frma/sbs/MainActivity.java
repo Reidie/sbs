@@ -211,10 +211,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                 @Override
                 protected void onPostExecute(Integer integer) {
                     super.onPostExecute(integer);
-                    mInItemUpdate = true;
-                    if(!mLoadNextCB.isChecked())
-                        mPermanentCB.setChecked(false);
-                    mInItemUpdate = false;
                 }
             }.execute();
         }
@@ -231,9 +227,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                     @Override
                 protected void onPostExecute(Integer integer) {
                     super.onPostExecute(integer);
-                        mInItemUpdate = true;
-                        mLoadNextCB.setChecked(mPermanentCB.isChecked());
-                        mInItemUpdate = false;
                 }
             }.execute();
         };
