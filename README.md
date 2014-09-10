@@ -37,7 +37,7 @@ Status
 Device    | ROM                    | Reported by       | Status                           
 ----------|------------------------|-------------------|-----------------------
 LG G2     | optimusRX stock G3 ROM | Anton Osika       | Working           
-LG G3     | Stock rom and root.    | Grzegorz Mazur    | WOrking
+LG G3     | Stock rom and root     | Grzegorz Mazur    | Working
 Galaxy S4 | CM11-M8                | Fredrik Markström | Working
 Galaxy S4 | CM11-M9                | Fredrik Markström | Working
 Nexus 5   | Stock                  | Miebi Sikoki      | Working
