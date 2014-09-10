@@ -43,7 +43,7 @@ if [ ! -e /data/system/sbs/log-not-empty ] ; then
     bbmd5sum /system/lib/libsurfaceflinger.so >> $LOG
 fi
 # Make sure the log is readable by the email client (and everyone else)
-bbchmod 0666 $LOG
+test -e $LOG && bbchmod 0666 $LOG
 # Redirect all output to the log file
 exec 1>> $LOG 2>&1
 
