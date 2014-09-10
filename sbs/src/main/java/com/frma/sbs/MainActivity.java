@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -266,6 +269,19 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
             commit();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        sendReport();
+        return super.onMenuItemSelected(featureId, item);
+    }
+
     private void uninstall() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -490,15 +506,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Comp
                 new String[] { "fredrik.markstrom@gmail.com" });
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                 "A log from SBS");
-        URI uri = null;
-        try {
-            uri = new URI("file:///"+getFilesDir()+"/sbs-log.txt");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        if (uri != null) {
-            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        }
+        Uri uri = Uri.parse("file:///"+getFilesDir()+"/sbs-log.txt");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                 "This is a log from SBS");
         this.startActivity(Intent.createChooser(emailIntent, "Sending email..."));

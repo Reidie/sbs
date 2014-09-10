@@ -1,5 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.frma.sbs.MainActivity" >
+    <item android:id="@+id/sendLog"
+        android:title="Send log to author"
+        android:showAsAction="never"/>
 </menu>
 <!-- From: file:/home/frma/Workspace/SBS/sbs/src/main/res/menu/main.xml -->
