@@ -45,6 +45,7 @@ Nexus 5   | Stock                  | Miebi Sikoki      | Working
 HTC One M8| GPE                    | Steven Weeks      | Working
 Oppo Find 7 | CM11 nightlies       | Travis Brown      | Working
 OnePlus One | CM11s 33r            | Владислав Тряпышко| Working
+Sony D6503 Sirius | Stock 4.4.2    | Kristoffer Andersson | Not working
 Xperia Z2 | Stock, rooted 4.4.2    | George Do         | Not working
 
 Some ideas:
