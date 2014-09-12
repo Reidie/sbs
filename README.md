@@ -38,12 +38,14 @@ Device    | ROM                    | Reported by       | Status
 ----------|------------------------|-------------------|-----------------------
 LG G2     | optimusRX stock G3 ROM | Anton Osika       | Working           
 LG G3     | Stock rom and root     | Grzegorz Mazur    | Working
+Galaxy Note II | AOKP 4.4.4        | Luis Aviles       | Working
 Galaxy S4 | CM11-M8                | Fredrik Markström | Working
 Galaxy S4 | CM11-M9                | Fredrik Markström | Working
 Nexus 5   | Stock                  | Miebi Sikoki      | Working
 HTC One M8| GPE                    | Steven Weeks      | Working
 Oppo Find 7 | CM11 nightlies       | Travis Brown      | Working
 OnePlus One | CM11s 33r            | Владислав Тряпышко| Working
+
 Xperia Z2 | Stock, rooted 4.4.2    | George Do         | Not working
 
 Some ideas:
