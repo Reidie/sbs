@@ -71,13 +71,11 @@ To manually undo everything SBS has done to your device
 
    mv /system/bin/surfaceflinger.real /system/bin/surfaceflinger
 
-* At this step your phone should boot fine, but if we really want to clean up we continue with:
-
-4) Mount data
-
-   mount /data
-
-5) Remove sbs related files
-
-   rm -rf /data/system/sbs
+4) Unmount /system again
+   
+   umount /system
+   
+5) Reboot phone
+   
+   reboot
 
